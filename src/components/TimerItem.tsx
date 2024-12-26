@@ -12,7 +12,7 @@ import { TimerModal } from './timerModal';
 interface TimerItemProps {
   timer: Timer;
 }
-
+const isMobileScreen = window.innerWidth <= 768;
 export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
   const { toggleTimer, deleteTimer, updateTimer, restartTimer } = useTimerStore();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -32,6 +32,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
 
           toast.success(`Timer "${timer.title}" has ended!`, {
             duration: 5000,
+            position: isMobileScreen ? 'bottom-center' : 'top-right',
             action: {
               label: 'Dismiss',
               onClick:() => {
