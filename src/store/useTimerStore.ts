@@ -28,12 +28,12 @@ const timerSlice = createSlice({
     },
     updateTimer: (state, action) => {
       const timer = state.timers.find(timer => timer.id === action.payload);
-      if (!timer) return; // Safeguard for invalid IDs
+      if (!timer) return; 
     
       if (timer.isRunning) {
-        timer.remainingTime = Math.max(timer.remainingTime - 1, 0); // Ensure it doesn't go below 0
+        timer.remainingTime = Math.max(timer.remainingTime - 1, 0); 
         if (timer.remainingTime === 0) {
-          timer.isRunning = false; // Stop the timer when it reaches 0
+          timer.isRunning = false; 
         }
       }
     },
