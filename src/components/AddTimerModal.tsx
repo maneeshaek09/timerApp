@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Clock } from 'lucide-react';
 import { useTimerStore } from '../store/useTimerStore';
 import { validateTimerForm } from '../utils/validation';
-import AddButton from './addButton';
+import AddButton from './button';
 
 interface AddTimerModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+    console.log('Button clicked!');
     if (!validateTimerForm({ title, description, hours, minutes, seconds })) {
       return;
     }
@@ -69,6 +69,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
 
   const isTimeValid = hours > 0 || minutes > 0 || seconds > 0;
   const isTitleValid = title.trim().length > 0 && title.length <= 50;
+  const buttonName ="Add Timer";
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -187,6 +188,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
             <AddButton
             isTitleValid={isTitleValid}
             isTimeValid={isTimeValid}
+            buttonName = {buttonName}
             onClick={handleSubmit} 
           />
           </div>

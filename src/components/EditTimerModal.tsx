@@ -3,7 +3,7 @@ import { X, Clock } from 'lucide-react';
 import { useTimerStore } from '../store/useTimerStore';
 import { validateTimerForm } from '../utils/validation';
 import { Timer } from '../types/timer';
-
+import AddButton from './button';
 interface EditTimerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -77,7 +77,7 @@ export const EditTimerModal: React.FC<EditTimerModalProps> = ({
 
   const isTimeValid = hours > 0 || minutes > 0 || seconds > 0;
   const isTitleValid = title.trim().length > 0 && title.length <= 50;
-
+  const buttonName ="Save Changes"
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
@@ -192,17 +192,13 @@ export const EditTimerModal: React.FC<EditTimerModalProps> = ({
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors ${
-                isTitleValid && isTimeValid
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-blue-400 cursor-not-allowed'
-              }`}
-              disabled={!isTitleValid || !isTimeValid}
-            >
-              Save Changes
-            </button>
+            
+            <AddButton
+            isTitleValid={isTitleValid}
+            isTimeValid={isTimeValid}
+            buttonName = {buttonName}
+            onClick={handleSubmit} 
+          />
           </div>
         </form>
       </div>

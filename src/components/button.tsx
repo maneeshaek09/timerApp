@@ -3,12 +3,14 @@ import React from 'react';
 interface AddButtonProps {
   isTitleValid: boolean;
   isTimeValid: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void; // Add an onClick prop
+  buttonName: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const AddButton: React.FC<AddButtonProps> = ({
   isTitleValid,
   isTimeValid,
+  buttonName,
   onClick,
 }) => {
   return (
@@ -20,9 +22,8 @@ const AddButton: React.FC<AddButtonProps> = ({
           : 'bg-blue-400 cursor-not-allowed'
       }`}
       disabled={!isTitleValid || !isTimeValid} 
-      onClick={onClick} 
-    >
-      Add Timer
+      onClick={isTitleValid && isTimeValid ? onClick : undefined} 
+    > {buttonName}
     </button>
   );
 };
