@@ -47,23 +47,29 @@ export const TimerModal: React.FC<TimerModalProps> = ({ isOpen, onClose, timer }
     }
 
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    
-    if (timer) {
-      // If editing an existing timer
-      editTimer(timer.id, {
-        title: title.trim(),
-        description: description.trim(),
-        duration: totalSeconds,
-      });
-    } else {
-      // If adding a new timer
-      addTimer({
+    const newTimer = {
         title: title.trim(),
         description: description.trim(),
         duration: totalSeconds,
         remainingTime: totalSeconds,
         isRunning: false,
-      });
+      };
+    
+    if (timer) {
+      // If editing an existing timer
+      editTimer(timer.id, newTimer)
+      const timersFromStorage = JSON.parse(localStorage.getItem('timers') || '[]');
+      const updatedTimers = timersFromStorage.map((t: any) =>
+        t.id === timer.id ? { ...t, ...newTimer } : t
+      );
+      localStorage.setItem('timers', JSON.stringify(updatedTimers));
+    } else {
+      // If adding a new timer
+      addTimer(newTimer);
+      const timersFromStorage = JSON.parse(localStorage.getItem('timers') || '[]');
+      const newTimerWithId = { ...newTimer, id: Date.now() }; 
+      timersFromStorage.push(newTimerWithId);
+      localStorage.setItem('timers', JSON.stringify(timersFromStorage));
     }
 
     onClose();
