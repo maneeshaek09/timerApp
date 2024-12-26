@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Clock } from 'lucide-react';
 import { useTimerStore } from '../store/useTimerStore';
 import { validateTimerForm } from '../utils/validation';
+import AddButton from './addButton';
 
 interface AddTimerModalProps {
   isOpen: boolean;
@@ -25,7 +26,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     
     if (!validateTimerForm({ title, description, hours, minutes, seconds })) {
@@ -85,7 +86,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Title <span className="text-red-500">*</span>
@@ -183,17 +184,11 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors ${
-                isTitleValid && isTimeValid
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-blue-400 cursor-not-allowed'
-              }`}
-              disabled={!isTitleValid || !isTimeValid}
-            >
-              Add Timer
-            </button>
+            <AddButton
+            isTitleValid={isTitleValid}
+            isTimeValid={isTimeValid}
+            onClick={handleSubmit} 
+          />
           </div>
         </form>
       </div>
