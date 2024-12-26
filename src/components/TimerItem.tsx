@@ -26,7 +26,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
       intervalRef.current = window.setInterval(() => {
         updateTimer(timer.id);
 
-        if (timer.remainingTime <= 1 && !hasEndedRef.current) {
+        if (timer.remainingTime <=1 && !hasEndedRef.current) {
           hasEndedRef.current = true;
           timerAudio.play().catch(console.error);
 
@@ -34,7 +34,10 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
             duration: 5000,
             action: {
               label: 'Dismiss',
-              onClick: timerAudio.stop,
+              onClick:() => {
+                timerAudio.stop(); 
+              }
+              ,
             },
           });
         }
