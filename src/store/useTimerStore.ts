@@ -28,11 +28,16 @@ const timerSlice = createSlice({
     },
     updateTimer: (state, action) => {
       const timer = state.timers.find(timer => timer.id === action.payload);
-      if (timer && timer.isRunning) {
-        timer.remainingTime -= 1;
-        timer.isRunning = timer.remainingTime > 0;
+      if (!timer) return; // Safeguard for invalid IDs
+    
+      if (timer.isRunning) {
+        timer.remainingTime = Math.max(timer.remainingTime - 1, 0); // Ensure it doesn't go below 0
+        if (timer.remainingTime === 0) {
+          timer.isRunning = false; // Stop the timer when it reaches 0
+        }
       }
     },
+    
     restartTimer: (state, action) => {
       const timer = state.timers.find(timer => timer.id === action.payload);
       if (timer) {

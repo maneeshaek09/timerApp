@@ -2,10 +2,20 @@ import React from 'react';
 import { TimerItem } from './TimerItem';
 import { useTimerStore } from '../store/useTimerStore';
 import { EmptyState } from './EmptyState';
-
+import { useEffect } from 'react';
 export const TimerList: React.FC = () => {
-  const { timers } = useTimerStore();
+  const { timers, updateTimer } = useTimerStore();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      timers.forEach((timer) => {
+        if (timer.isRunning) {
+          updateTimer(timer.id);
+        }
+      });
+    }, 1000);
 
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [timers, updateTimer]);
   return (
     <div className="space-y-4 min-h-[400px]">
       {timers.length === 0 ? (
